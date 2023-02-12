@@ -1,208 +1,36 @@
-from prettytable import PrettyTable
-"""
-Library for create table
-"""
+# SUPER CASHIER
 
-class Transaction():
+# PROJECT BACKGROUNDS
+Kasir self-service merupakan sebuah sistem yang dapat mempermudah pelanggan dalam proses membuat pesanan dan melakukan pembayaran dengan pilihan lengkap. Customer bisa langsung memasukkan item yang dibeli, jumlah item yang dibeli, dan harga item yang dibeli dan fitur yang lain. Selain dapat melakukan perhitungan secara otomatis, transaksi dengan aplikasi ini dinilai lebih cepat serta mengurangi kemungkinan terjadinya kesalahan dalam menghitung. 
 
-  def __init__(self):
-    self.order = []
+# FEATURE REQUIREMENTS
+1. Customer dapat menambah dan mengupdate item
+2. Customer dapat menghapus item 
+3. Customer dapat reset transaksi
+4. Customer dapat melihat total transaksi 
+5. Customer dapat konfirmasi setelah input
+6. Customer dapat error message ketika terjadi error
+7. Customer dapat discount ketika mencapai total transaksi tertentu
 
-    """
-    Function to initialize class Transaction
-    ----------------------------------------
-    self.order = list 
-      attribute to put transaction data from add_item function in the form of list
-    """
+# FLOWCHART
+!https://github.com/ypenina/pacmann/issues/1#issue-1581323998
 
+# MODULES 
 
-  def add_item(self, item_name, item_qty, item_price):
+### 1. Class Transaction
+https://user-images.githubusercontent.com/123524503/218324114-415dfb14-e865-4584-ac4e-69eb9ff582af.jpeg
 
-    """
-    Function to add item for the transaction list
-    ---------------------------------------------
-    Parameters
-    item_name = str
-      Consist of the item name
-    item_qty = float
-      Quantity of the item to put in transaction
-    item_price = float
-      Price per item
-    """
-  
-    # Check input type of item_qty and item_price
-    try: 
-      item_qty = float(item_qty)
-      item_price = float(item_price)
-    except ValueError as Error:
-      raise ValueError ("Input Salah! Harus Angka!")
-      return
+### 2. Add Item
+https://user-images.githubusercontent.com/123524503/218324587-1d3191f6-3ba6-4138-ba91-413bbd3d32a0.png
 
-    # Parameters
-    self.item_name = item_name
-    self.item_qty = item_qty
-    self.item_price = item_price
+### 7. Delete Item
+https://user-images.githubusercontent.com/123524503/218324606-678ec1f2-df85-4d36-820a-a67addca5a7a.png
 
-    # Output (dict) will append the items to the list(self.order)
-    items = {'nama': (item_name), "jumlah" : (item_qty), "harga" : (item_price)}
-    self.order.append(items)   
-    print(f"Berhasil memesan {item_name} berjumlah {item_qty} dengan harga Rp {item_price}.")
-    return
+### 9. Reset Transaction
+https://user-images.githubusercontent.com/123524503/218324637-22d7e285-3d87-461e-9344-25d3c8e074b3.png
 
-   
-  def update_item_name(self, item_name, new_name):
+### 10. Check Order
+https://user-images.githubusercontent.com/123524503/218324653-8540cbdc-3649-4c58-8705-d7f73f5c7f29.png
 
-    """
-    Function to change item name
-    ----------------------------
-    Parameters
-    item_name = str
-      Item name that will be changed
-    new_name = str
-      New name of the item
-    """
-
-    # Loop for find and change the item name
-
-    found_items = list(filter(lambda items: items['nama'] == str(item_name), self.order))
-    if len(found_items) > 0:
-      found_items[0]['nama'] = str(new_name)
-      print(f"{item_name} berhasil diubah menjadi {new_name}.")
-    else:
-      print("Item Tidak Ditemukan")      
- 
-  def update_item_qty(self, item_name, new_qty):
-    
-    """
-    Function to change item quantity
-    --------------------------------
-    Parameters
-    item_name = str
-      Item which will be updated
-    new_qty = float
-      Updated quantity of the item
-    """
-
-    # Check the input type
-    try:
-      new_qty = float(new_qty)
-    except ValueError as Error:
-      raise ValueError ("Input Salah! Harus Angka Tanpa Kutip!")
-      return
-
-    found_items = list(filter(lambda items: items['nama'] == str(item_name), self.order))
-    if len(found_items) > 0:
-      found_items[0]['jumlah'] = float(new_qty)
-      print(f"Jumlah {item_name} berhasil diubah menjadi {new_qty}.")
-    else:
-      print("Item Tidak Ditemukan")
-
-  def update_item_price(self, item_name, new_price):
-
-    """
-    Function to change item price
-    --------------------------------
-    Parameters
-    item_name = str
-      Item which will be updated
-    new_price = float
-      Updated price of the item
-    """
-
-    # Check the input type
-    try:
-      new_price = float(new_price)
-    except ValueError as Error:
-      raise ValueError ("Input Salah! Harus Angka Tanpa Kutip!")
-      return
-
-    found_items = list(filter(lambda items: items['nama'] == str(item_name), self.order))
-    if len(found_items) > 0:
-      found_items[0]['harga'] = float(new_price)
-      print(f"Harga {item_name} berhasil diubah menjadi {new_price}.")
-    else:
-      print("Item Tidak Ditemukan")
-
-  def delete_item(self, item_name):
-    
-    """
-    Function to delete item
-    --------------------------------
-    Parameters
-    item_name = str
-      Item which will be deleted
-    """
-
-    found_items = list(filter(lambda items: items['nama'] == str(item_name), self.order))
-    if len(found_items) > 0:
-      self.order.remove(found_items[0]) 
-      print(f"Berhasil menghapus {item_name}.")
-    else:
-      print("Item Tidak Ditemukan")
-             
-
-  def reset_transaction(self):
-
-    """
-    Function to reset transaction
-    --------------------------------
-    Parameters
-    item_name = str
-      Item which will be updated
-    new_price = float
-      Updated price of the item
-    """
-
-    self.reset = self.order.clear()
-    return print("Berhasil menghapus semua item")    
-
-  def check_order(self):
-    
-    """
-    Function to check the order with table form
-    -------------------------------------------
-    """
-
-    try:
-      x = PrettyTable()
-      x.field_names = ["Item", "Jumlah", "Harga Satuan", "Total Harga"]
-      x.align["Harga Satuan"] = "r" # Align to right
-      x.align["Total Harga"] = "r" # Align to right
-      
-      for items in self.order:
-        x.add_row([items['nama'], items['jumlah'], items['harga'], items['jumlah']*items['harga']])
-      print(x)
-    except:
-      print("Belum ada transaksi")
-
-  def print_total(self):
-
-    """
-    Function to see total transaction price
-    Will get discounted if certain amount is achieved
-    --------------------------------------------------
-    """
-
-    total_belanja = sum((items['jumlah']*items['harga']) for items in self.order)
-
-    if total_belanja > 500_000:
-      diskon = total_belanja * .08
-      total_akhir = total_belanja - diskon
-      print(f"Selamat! Anda mendapat potongan sebesar Rp {diskon}, total belanja Anda adalah Rp {total_akhir}.")
-
-    elif total_belanja > 300_000:
-      diskon = total_belanja * .05
-      total_akhir = total_belanja - diskon
-      print(f"Selamat! Anda mendapat potongan sebesar Rp {diskon}, total belanja Anda adalah Rp {total_akhir}.")
-
-    elif total_belanja > 200_000:
-      diskon = total_belanja * .02
-      total_akhir = total_belanja - diskon
-      print(f"Selamat! Anda mendapat potongan sebesar Rp {diskon}, total belanja Anda adalah Rp {total_akhir}.")
-
-    elif total_belanja > 0:
-      print(f"Total belanja Anda adalah Rp {total_belanja}.")
-        
-    else:
-      print("Belum ada transaksi")
-
+### 11. Print Total
+https://user-images.githubusercontent.com/123524503/218324661-685d58e3-1fdf-4513-889c-9095dff16ce6.png
